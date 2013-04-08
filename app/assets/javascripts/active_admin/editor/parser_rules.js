@@ -1,38 +1,3 @@
-/**
- * Full HTML5 compatibility rule set
- * These rules define which tags and CSS classes are supported and which tags should be specially treated.
- *
- * Examples based on this rule set:
- *
- *    <a href="http://foobar.com">foo</a>
- *    ... becomes ...
- *    <a href="http://foobar.com" target="_blank" rel="nofollow">foo</a>
- *
- *    <img align="left" src="http://foobar.com/image.png">
- *    ... becomes ...
- *    <img class="wysiwyg-float-left" src="http://foobar.com/image.png" alt="">
- *
- *    <div>foo<script>alert(document.cookie)</script></div>
- *    ... becomes ...
- *    <div>foo</div>
- *
- *    <marquee>foo</marquee>
- *    ... becomes ...
- *    <span>foo</span>
- *
- *    foo <br clear="both"> bar
- *    ... becomes ...
- *    foo <br class="wysiwyg-clear-both"> bar
- *
- *    <div>hello <iframe src="http://google.com"></iframe></div>
- *    ... becomes ...
- *    <div>hello </div>
- *
- *    <center>hello</center>
- *    ... becomes ...
- *    <div class="wysiwyg-text-align-center">hello</div>
- */
-
 ;(function(window) {
   window.AA = (window.AA || {})
   window.AA.editor_config = (window.AA.editor_config || {})
@@ -76,7 +41,10 @@
           "wysiwyg-text-align-center": 1,
           "wysiwyg-text-align-justify": 1,
           "wysiwyg-text-align-left": 1,
-          "wysiwyg-text-align-right": 1
+          "wysiwyg-text-align-right": 1,
+          "important-link": 1,
+          "photo-source": 1
+
       },
       /**
        * Tag list
@@ -145,9 +113,6 @@
           "multicol": {
               "rename_tag": "div"
           },
-          "figure": {
-              "rename_tag": "div"
-          },
           "xmp": {
               "rename_tag": "span"
           },
@@ -179,9 +144,6 @@
           },
           "iframe": {
               "remove": 1
-          },
-          "figcaption": {
-              "rename_tag": "div"
           },
           "a": {
               "check_attributes": {

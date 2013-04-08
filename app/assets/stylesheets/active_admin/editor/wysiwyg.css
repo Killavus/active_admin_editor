@@ -1,3 +1,86 @@
+.wysihtml5-editor p:first-of-type {
+  color: #352f2d;
+
+  margin-top: 3em;
+}
+
+.wysihtml5-editor p:first-of-type:first-letter {
+  font-size: 4.3636em;
+  line-height: 0.229em;
+}
+
+.wysihtml5-editor p {
+  color: #838383;
+
+  margin-bottom: 1em;
+
+  line-height: 1.7;
+}
+
+.wysihtml5-editor .important-link {
+  font-size: 1.0909em;
+
+  font-weight: bold;
+
+  margin: 2em 0;
+
+  padding: .8em 0;
+  padding-left: 16px;
+
+  background: transparent url('/assets/important-filling.png') top left no-repeat;
+}
+
+.wysihtml5-editor .important-link a {
+    color: #4b3c37;
+
+    text-decoration: none;
+
+    background: transparent url("/assets/link-arrow.png") center right no-repeat;
+    padding-right: 1em;
+}
+
+.wysihtml5-editor .important-link a:hover {
+    text-decoration: underline;
+}
+
+.wysihtml5-editor blockquote {
+  margin: 2em 0;
+
+  vertical-align: top;
+
+  font-family: 'Tienne', Georgia, serif;
+  font-size: 1em;
+  font-weight: 400;
+
+  color: #4b3c37;
+
+  line-height: 1.8;
+  font-style: oblique;
+}
+
+.wysihtml5-editor blockquote:before {
+  content: url("/assets/blockquote-dquot.png");
+
+  margin-right: 1.5em;
+  margin-bottom: 1em;
+
+  float: left;
+}
+
+.wysihtml5-editor figure {
+  margin: 2em 0;
+}
+
+.wysihtml5-editor figure figcaption {
+  text-align: center;
+  font-style: oblique;
+
+  line-height: 1;
+}
+
+.wysihtml5-editor figure figcaption b {
+  font-style: normal;
+}
 
 .wysiwyg-font-size-smaller {
   font-size: smaller;
