@@ -7178,8 +7178,8 @@ wysihtml5.Commands = Base.extend(
     exec: function(composer, command, nodeName, className, classRegExp) {
       if (nodeName == "important") {
         nodeName = "P";
-        className = "important";
-        classRegExp = "^important$";
+        className = "important-link";
+        classRegExp = "^important-link$";
       }
 
       var doc          = composer.doc,
