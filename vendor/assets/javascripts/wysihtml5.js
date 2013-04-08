@@ -7417,8 +7417,53 @@ wysihtml5.Commands = Base.extend(
       } else {
         composer.selection.setAfter(image);
       }
+    },
+    state: function(composer) {
+      var doc = composer.doc,
+          selectedNode,
+          text,
+          imagesInSelection;
+
+      if (!wysihtml5.dom.hasElementWithTagName(doc, NODE_NAME)) {
+        return false;
+      }
+
+      selectedNode = composer.selection.getSelectedNode();
+      if (!selectedNode) {
+        return false;
+      }
+
+      if (selectedNode.nodeName === NODE_NAME) {
+        // This works perfectly in IE
+        return selectedNode;
+      }
+
+      if (selectedNode.nodeType !== wysihtml5.ELEMENT_NODE) {
+        return false;
+      }
+
+      text = composer.selection.getText();
+      text = wysihtml5.lang.string(text).trim();
+      if (text) {
+        return false;
+      }
+
+      imagesInSelection = composer.selection.getNodes(wysihtml5.ELEMENT_NODE, function(node) {
+        return node.nodeName === "IMG";
+      });
+
+      if (imagesInSelection.length !== 1) {
+        return false;
+      }
+
+      return imagesInSelection[0];
+    },
+
+    value: function(composer) {
+      var image = this.state(composer);
+      return image && image.src;
     }
-  }
+  };
   
   wysihtml5.commands.insertImage = {
     /**
