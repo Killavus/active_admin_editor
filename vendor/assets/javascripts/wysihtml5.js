@@ -7365,6 +7365,60 @@ wysihtml5.Commands = Base.extend(
   };
 })(wysihtml5);(function(wysihtml5) {
   var NODE_NAME = "IMG";
+
+  wysihtml5.commands.imageLayout = {
+    exec: function(composer, command, value) {
+      var doc     = composer.doc,
+          image   = this.state(composer),
+          textNode,
+          i,
+          parent;
+
+      if(image) {
+        parent = image.parentNode;
+        parent.removeChild(image);
+      }
+
+      if (parent.nodeName === "FIGURE") {
+        composer.selection.setBefore(parent)
+        parent.parentNode.removeChild(parent)
+        parent = parent.parentNode;
+      }
+
+      if (parent.parentNode === 'A' && !parent.firstChild) {
+        composer.selection.setAfter(parent);
+        parent.parentNode.removeChild(parent);
+      }
+
+      wysihtml5.dom.removeEmptyTextNodes(parent);
+      wysihtml5.quirks.redraw(composer.element);
+
+      if (value == 'two-small') {
+        figure = document.createElement("figure");
+
+        figure.appendChild(wysihtml5.commands.insertImage.exec(composer, "insertImage", "http://placehold.it/641x356"));
+        figcaption = document.createElement("figcaption")
+        figcaption.innerHTML = "Wstaw opis";
+        figure.appendChild(figcaption);
+        composer.selection.insertNode(figure);
+
+      }
+      else if (value == 'big') {
+        figure = document.createElement("figure")
+
+        figure.appendChild(wysihtml5.commands.insertImage.exec(composer, "insertImage", "http://placehold.it/313x156"))
+        figure.appendChild(wysihtml5.commands.insertImage.exec(composer, "insertImage", "http://placehold.it/313x156"))
+        composer.selection.insertNode(figure)
+      }
+      if (wysihtml5.browser.hasProblemsSettingCaretAfterImg()) {
+        textNode = doc.createTextNode(wysihtml5.INVISIBLE_SPACE);
+        composer.selection.insertNode(textNode);
+        composer.selection.setAfter(textNode);
+      } else {
+        composer.selection.setAfter(image);
+      }
+    }
+  }
   
   wysihtml5.commands.insertImage = {
     /**
