@@ -7176,6 +7176,9 @@ wysihtml5.Commands = Base.extend(
   
   wysihtml5.commands.formatBlock = {
     exec: function(composer, command, nodeName, className, classRegExp) {
+      console.log(className)
+      console.log(nodeName)
+      console.log(classRegExp)
       var doc          = composer.doc,
           blockElement = this.state(composer, command, nodeName, className, classRegExp),
           selectedNode;
