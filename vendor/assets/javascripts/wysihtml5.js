@@ -7365,106 +7365,7 @@ wysihtml5.Commands = Base.extend(
   };
 })(wysihtml5);(function(wysihtml5) {
   var NODE_NAME = "IMG";
-
-  wysihtml5.commands.imageLayout = {
-    exec: function(composer, command, value) {
-      var doc     = composer.doc,
-          image   = this.state(composer),
-          textNode,
-          i,
-          parent;
-
-      if(image) {
-        parent = image.parentNode;
-        parent.removeChild(image);
-      }
-
-      if (parent.nodeName === "FIGURE") {
-        composer.selection.setBefore(parent)
-        parent.parentNode.removeChild(parent)
-        parent = parent.parentNode;
-      }
-
-      if (parent.parentNode === 'A' && !parent.firstChild) {
-        composer.selection.setAfter(parent);
-        parent.parentNode.removeChild(parent);
-      }
-
-      wysihtml5.dom.removeEmptyTextNodes(parent);
-      wysihtml5.quirks.redraw(composer.element);
-
-      if (value == 'two-small') {
-        figure = document.createElement("figure");
-
-        figure.appendChild(wysihtml5.commands.insertImage.exec(composer, "insertImage", "http://placehold.it/641x356"));
-        figcaption = document.createElement("figcaption")
-        figcaption.innerHTML = "Wstaw opis";
-        figure.appendChild(figcaption);
-        composer.selection.insertNode(figure);
-
-      }
-      else if (value == 'big') {
-        figure = document.createElement("figure")
-
-        figure.appendChild(wysihtml5.commands.insertImage.exec(composer, "insertImage", "http://placehold.it/313x156"))
-        figure.appendChild(wysihtml5.commands.insertImage.exec(composer, "insertImage", "http://placehold.it/313x156"))
-        composer.selection.insertNode(figure)
-      }
-      if (wysihtml5.browser.hasProblemsSettingCaretAfterImg()) {
-        textNode = doc.createTextNode(wysihtml5.INVISIBLE_SPACE);
-        composer.selection.insertNode(textNode);
-        composer.selection.setAfter(textNode);
-      } else {
-        composer.selection.setAfter(image);
-      }
-    },
-    state: function(composer) {
-      var doc = composer.doc,
-          selectedNode,
-          text,
-          imagesInSelection;
-
-      if (!wysihtml5.dom.hasElementWithTagName(doc, NODE_NAME)) {
-        return false;
-      }
-
-      selectedNode = composer.selection.getSelectedNode();
-      if (!selectedNode) {
-        return false;
-      }
-
-      if (selectedNode.nodeName === NODE_NAME) {
-        // This works perfectly in IE
-        return selectedNode;
-      }
-
-      if (selectedNode.nodeType !== wysihtml5.ELEMENT_NODE) {
-        return false;
-      }
-
-      text = composer.selection.getText();
-      text = wysihtml5.lang.string(text).trim();
-      if (text) {
-        return false;
-      }
-
-      imagesInSelection = composer.selection.getNodes(wysihtml5.ELEMENT_NODE, function(node) {
-        return node.nodeName === "IMG";
-      });
-
-      if (imagesInSelection.length !== 1) {
-        return false;
-      }
-
-      return imagesInSelection[0];
-    },
-
-    value: function(composer) {
-      var image = this.state(composer);
-      return image && image.src;
-    }
-  };
-  
+ 
   wysihtml5.commands.insertImage = {
     /**
      * Inserts an <img>
@@ -7566,6 +7467,107 @@ wysihtml5.Commands = Base.extend(
     }
   };
 })(wysihtml5);(function(wysihtml5) {
+  var NODE = 'FIGURE';
+  var PreferrableDimensions = {
+    "two-small": [313, 156],
+    "big": [641, 356]
+  };
+
+  /** Creates a figure layout, consisting of figure of big and/or 2 small images. **/
+  wysihtml5.commands.imageLayout = {
+    exec: function(composer, command, value) {
+      var doc = composer.doc,
+          figure = this.state();
+
+      if(figure) {
+        composer.selection.setBefore(figure);
+        parent = figure.parentNode;
+        parent.removeChild(figure);
+
+        // and it's parent <a> too if it hasn't got any other relevant child nodes
+        wysihtml5.dom.removeEmptyTextNodes(parent);
+        if (parent.nodeName === "FIGURE" && !parent.firstChild) {
+          composer.selection.setAfter(parent);
+          parent.parentNode.removeChild(parent);
+        }
+
+        // firefox and ie sometimes don't remove the image handles, even though the image got removed
+        wysihtml5.quirks.redraw(composer.element);
+        return;
+      }
+      else {
+        if (value == "big") {
+          var newFigure = document.createElement("figure");
+          var newFigureCaption = document.createElement("figcaption");
+          newFigureCaption.innerHTML = "Wstaw tutaj opis";
+
+          var newImage = document.createElement("img");
+          newImage.src = "http://placehold.it/" + PreferrableDimensions[value].join("x");
+
+          newFigure.appendChild(newImage);
+          newFigure.appendChild(newFigureCaption);
+          composer.selection.insertNode(newFigure);
+        }
+        else if (value == "two-small") {
+          var newFigure = document.createElement("figure");
+
+          var newImage = document.createElement("img");
+          newImage.src = "http://placehold.it/" + PreferrableDimensions[value].join("x");
+
+          var newImage2 = document.createElement("img");
+          newImage.src = "http://placehold.it/" + PreferrableDimensions[value].join("x");
+
+          newFigure.appendChild(newImage);
+          newFigure.appendChild(newImage2);
+          composer.selection.insertNode(newFigure);
+        }
+      }
+    },
+    state: function() {
+      var doc = composer.doc,
+          selectedNode,
+          text,
+          imagesInSelection;
+
+      if (!wysihtml5.dom.hasElementWithTagName(doc, NODE)) {
+        return false;
+      }
+
+      selectedNode = composer.selection.getSelectedNode();
+      if (!selectedNode) {
+        return false;
+      }
+
+      if (selectedNode.nodeName === NODE) {
+        // This works perfectly in IE
+        return selectedNode;
+      }
+
+      if (selectedNode.nodeType !== wysihtml5.ELEMENT_NODE) {
+        return false;
+      }
+
+      text = composer.selection.getText();
+      text = wysihtml5.lang.string(text).trim();
+      if (text) {
+        return false;
+      }
+
+      imagesInSelection = composer.selection.getNodes(wysihtml5.ELEMENT_NODE, function(node) {
+        return node.nodeName === "FIGURE";
+      });
+
+      if (imagesInSelection.length !== 1) {
+        return false;
+      }
+
+      return imagesInSelection[0];
+    },
+    value: function() {
+      return undefined;
+    }
+  };
+});(function(wysihtml5) {
   var undef,
       LINE_BREAK = "<br>" + (wysihtml5.browser.needsSpaceAfterLineBreak() ? " " : "");
   
