@@ -7176,9 +7176,12 @@ wysihtml5.Commands = Base.extend(
   
   wysihtml5.commands.formatBlock = {
     exec: function(composer, command, nodeName, className, classRegExp) {
-      console.log(className)
-      console.log(nodeName)
-      console.log(classRegExp)
+      if (nodeName == "important") {
+        nodeName = "P";
+        className = "important";
+        classRegExp = "^important$";
+      }
+
       var doc          = composer.doc,
           blockElement = this.state(composer, command, nodeName, className, classRegExp),
           selectedNode;
@@ -9535,11 +9538,7 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
         if (this.config.toolbar) {
           this.toolbar = new wysihtml5.toolbar.Toolbar(this, this.config.toolbar);
         }
-      });
-      
-      try {
-        console.log("Heya! This page is using wysihtml5 for rich text editing. Check out https://github.com/xing/wysihtml5");
-      } catch(e) {}
+      });  
     },
     
     isCompatible: function() {
