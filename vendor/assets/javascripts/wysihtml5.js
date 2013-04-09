@@ -7220,6 +7220,37 @@ wysihtml5.Commands = Base.extend(
             // Make sure that styling is kept by renaming the element to <div> and copying over the class name
             dom.renameElement(blockElement, DEFAULT_NODE_NAME);
           }
+
+          if (isImgBig) {
+            var img = document.createElement("img");
+            img.src = "http://placehold.it/641x356";
+            img.alt = "";
+
+            // Clear actual element.
+            blockElement.innerHTML = "";
+            blockElement.appendChild(img);
+            var figcaption = document.createElement("figcaption");
+            figcaption.innerHTML = "Wstaw opis tutaj!";
+            blockElement.appendChild(figcaption);
+          }
+          if (isImgTwoSmall) {
+            var img = document.createElement("img");
+            img.src = "http://placehold.it/312x146";
+            img.alt = "";
+
+            blockElement.innerHTML = "";
+            blockElement.appendChild(img);
+            _addClass(blockElement, "inline", "");
+
+            var fig = document.createElement("figure");
+            var img2 = document.createElement("img");
+            img2.src = "http://placehold.it/312x146";
+            img2.alt = "";
+
+            fig.appendChild(img2);
+            _addClass(fig, "inline", "");
+            blockElement.parentNode.insertBefore(fig, blockElement.nextSibling);
+          }
         });
         return;
       }
