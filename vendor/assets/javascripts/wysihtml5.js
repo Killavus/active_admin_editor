@@ -7249,7 +7249,7 @@ wysihtml5.Commands = Base.extend(
               
               // Clear actual element.
               blockElement.innerHTML = "";
-              blockElement.appendChild(img);
+              blockElement = blockElement.appendChild(img);
               var figcaption = document.createElement("figcaption");
               figcaption.innerHTML = "Wstaw opis tutaj!";
               blockElement.appendChild(img);
