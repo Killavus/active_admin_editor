@@ -7182,6 +7182,23 @@ wysihtml5.Commands = Base.extend(
         classRegExp = "^important-link$";
       }
 
+      var isImgBig = false;
+      var isImgTwoSmall = false;
+
+      if(nodeName == "img-big") {
+        nodeName = "FIGURE";
+        className = "";
+        classRegExp = "";
+        isImgBig = true;
+      }
+
+      if(nodeName == "img-two-small") {
+        nodeName = "FIGURE";
+        className = "";
+        classRegExp = "";
+        isImgTwoSmall = true;
+      }
+
       var doc          = composer.doc,
           blockElement = this.state(composer, command, nodeName, className, classRegExp),
           selectedNode;
@@ -7222,6 +7239,20 @@ wysihtml5.Commands = Base.extend(
             }
             if (className) {
               _addClass(blockElement, className, classRegExp);
+            }
+            if (isImgBig) {
+              var img = document.createElement("img");
+              img.src = "http://placehold.it/641x356";
+              img.alt = "";
+              
+              // Clear actual element.
+              blockElement.innerHTML = "";
+              blockElement.appendChild(img);
+
+              var figcaption = document.createElement("figcaption");
+              figcaption.innerHTML = "Wstaw opis tutaj!";
+
+              blockElement.appendChild(img);
             }
           });
           return;
@@ -7470,107 +7501,6 @@ wysihtml5.Commands = Base.extend(
     value: function(composer) {
       var image = this.state(composer);
       return image && image.src;
-    }
-  };
-})(wysihtml5);(function(wysihtml5) {
-  var NODE = 'FIGURE';
-  var PreferrableDimensions = {
-    "two-small": [313, 156],
-    "big": [641, 356]
-  };
-
-  /** Creates a figure layout, consisting of figure of big and/or 2 small images. **/
-  wysihtml5.commands.imageLayout = {
-    exec: function(composer, command, value) {
-      var doc = composer.doc,
-          figure = this.state(composer);
-
-      if(figure) {
-        composer.selection.setBefore(figure);
-        parent = figure.parentNode;
-        parent.removeChild(figure);
-
-        // and it's parent <a> too if it hasn't got any other relevant child nodes
-        wysihtml5.dom.removeEmptyTextNodes(parent);
-        if (parent.nodeName === "FIGURE" && !parent.firstChild) {
-          composer.selection.setAfter(parent);
-          parent.parentNode.removeChild(parent);
-        }
-
-        // firefox and ie sometimes don't remove the image handles, even though the image got removed
-        wysihtml5.quirks.redraw(composer.element);
-        return;
-      }
-      else {
-        if (value == "big") {
-          var newFigure = document.createElement("figure");
-          var newFigureCaption = document.createElement("figcaption");
-          newFigureCaption.innerHTML = "Wstaw tutaj opis";
-
-          var newImage = document.createElement("img");
-          newImage.src = "http://placehold.it/" + PreferrableDimensions[value].join("x");
-
-          newFigure.appendChild(newImage);
-          newFigure.appendChild(newFigureCaption);
-          composer.selection.insertNode(newFigure);
-        }
-        else if (value == "two-small") {
-          var newFigure = document.createElement("figure");
-
-          var newImage = document.createElement("img");
-          newImage.src = "http://placehold.it/" + PreferrableDimensions[value].join("x");
-
-          var newImage2 = document.createElement("img");
-          newImage.src = "http://placehold.it/" + PreferrableDimensions[value].join("x");
-
-          newFigure.appendChild(newImage);
-          newFigure.appendChild(newImage2);
-          composer.selection.insertNode(newFigure);
-        }
-      }
-    },
-    state: function(composer) {
-      var doc = composer.doc,
-          selectedNode,
-          text,
-          imagesInSelection;
-
-      if (!wysihtml5.dom.hasElementWithTagName(doc, NODE)) {
-        return false;
-      }
-
-      selectedNode = composer.selection.getSelectedNode();
-      if (!selectedNode) {
-        return false;
-      }
-
-      if (selectedNode.nodeName === NODE) {
-        // This works perfectly in IE
-        return selectedNode;
-      }
-
-      if (selectedNode.nodeType !== wysihtml5.ELEMENT_NODE) {
-        return false;
-      }
-
-      text = composer.selection.getText();
-      text = wysihtml5.lang.string(text).trim();
-      if (text) {
-        return false;
-      }
-
-      imagesInSelection = composer.selection.getNodes(wysihtml5.ELEMENT_NODE, function(node) {
-        return node.nodeName === "FIGURE";
-      });
-
-      if (imagesInSelection.length !== 1) {
-        return false;
-      }
-
-      return imagesInSelection[0];
-    },
-    value: function() {
-      return undefined;
     }
   };
 })(wysihtml5);(function(wysihtml5) {
