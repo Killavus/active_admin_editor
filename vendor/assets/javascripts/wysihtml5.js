@@ -7252,6 +7252,21 @@ wysihtml5.Commands = Base.extend(
               figcaption.innerHTML = "Wstaw opis tutaj!";
               blockElement.appendChild(figcaption);
             }
+            if (isImgTwoSmall) {
+              var img = document.createElement("img");
+              img.src = "http://placehold.it/312x146";
+              img.alt = "";
+
+              blockElement.appendChild(img);
+
+              var fig = document.createElement("figure");
+              var img2 = document.createElement("img");
+              img.src = "http://placehold.it/312x146";
+              img.alt = "";
+
+              fig.appendChild(img2);
+              blockElement.parentNode.insertBefore(fig, blockElement.nextSibling);
+            }
           });
           return;
         }
