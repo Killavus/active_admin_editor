@@ -6787,8 +6787,6 @@ wysihtml5.Commands = Base.extend(
     
     this.editor.fire("beforecommand:composer");
     
-    console.log(obj);
-
     if (method) {
       args.unshift(this.composer);
       result = method.apply(obj, args);
@@ -7577,7 +7575,7 @@ wysihtml5.Commands = Base.extend(
       return undefined;
     }
   };
-});(function(wysihtml5) {
+})(wysihtml5);(function(wysihtml5) {
   var undef,
       LINE_BREAK = "<br>" + (wysihtml5.browser.needsSpaceAfterLineBreak() ? " " : "");
   
