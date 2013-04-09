@@ -6789,7 +6789,6 @@ wysihtml5.Commands = Base.extend(
     
     if (method) {
       args.unshift(this.composer);
-      console.log("I'm here!");
       result = method.apply(obj, args);
     } else {
       try {
@@ -7484,7 +7483,7 @@ wysihtml5.Commands = Base.extend(
   wysihtml5.commands.imageLayout = {
     exec: function(composer, command, value) {
       var doc = composer.doc,
-          figure = this.state();
+          figure = this.state(composer);
 
       if(figure) {
         composer.selection.setBefore(figure);
@@ -7530,7 +7529,7 @@ wysihtml5.Commands = Base.extend(
         }
       }
     },
-    state: function() {
+    state: function(composer) {
       var doc = composer.doc,
           selectedNode,
           text,
