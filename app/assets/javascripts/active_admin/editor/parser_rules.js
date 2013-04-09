@@ -262,6 +262,8 @@
               "remove": 1
           },
           "table": {},
+          "figure": {},
+          "figcaption": {},
           "keygen": {
               "remove": 1
           },
