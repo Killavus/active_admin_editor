@@ -4765,9 +4765,6 @@ wysihtml5.dom.parse = (function() {
    * which later replaces the entire body content
    */
   function parse(elementOrHtml, rules, context, cleanUp) {
-    console.log(rules);
-    console.log(context);
-    console.log(cleanUp);
     wysihtml5.lang.object(currentRules).merge(defaultRules).merge(rules).get();
     
     context           = context || elementOrHtml.ownerDocument || document;
