@@ -7258,6 +7258,7 @@ wysihtml5.Commands = Base.extend(
               img.alt = "";
 
               blockElement.appendChild(img);
+              _addClass(blockElement, "inline", "");
 
               var fig = document.createElement("figure");
               var img2 = document.createElement("img");
@@ -7265,6 +7266,7 @@ wysihtml5.Commands = Base.extend(
               img2.alt = "";
 
               fig.appendChild(img2);
+              _addClass(figure, "inline", "");
               blockElement.parentNode.insertBefore(fig, blockElement.nextSibling);
             }
           });

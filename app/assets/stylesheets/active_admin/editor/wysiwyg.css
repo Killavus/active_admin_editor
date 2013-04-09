@@ -71,6 +71,11 @@
   line-height: 1;
 }
 
+.wysihtml5-editor figure.inline {
+  display: inline-block;
+  vertical-align: top;
+}
+
 .wysihtml5-editor figure figcaption b {
   font-style: normal;
 }
