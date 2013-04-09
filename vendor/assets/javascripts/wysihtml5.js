@@ -6789,6 +6789,7 @@ wysihtml5.Commands = Base.extend(
     
     if (method) {
       args.unshift(this.composer);
+      console.log("I'm here!");
       result = method.apply(obj, args);
     } else {
       try {
@@ -7482,8 +7483,6 @@ wysihtml5.Commands = Base.extend(
   /** Creates a figure layout, consisting of figure of big and/or 2 small images. **/
   wysihtml5.commands.imageLayout = {
     exec: function(composer, command, value) {
-      console.log(command);
-      console.log(value);
       var doc = composer.doc,
           figure = this.state();
 
