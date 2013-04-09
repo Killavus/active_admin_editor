@@ -6787,9 +6787,7 @@ wysihtml5.Commands = Base.extend(
     
     this.editor.fire("beforecommand:composer");
     
-    console.log('i\'m here');
-    console.log(command);
-    console.log(value);
+    console.log(obj);
 
     if (method) {
       args.unshift(this.composer);
