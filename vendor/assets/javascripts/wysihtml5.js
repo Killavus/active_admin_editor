@@ -7244,15 +7244,13 @@ wysihtml5.Commands = Base.extend(
               var img = document.createElement("img");
               img.src = "http://placehold.it/641x356";
               img.alt = "";
-
-              console.log(blockElement);
-              
+  
               // Clear actual element.
               blockElement.innerHTML = "";
-              blockElement = blockElement.appendChild(img);
+              blockElement.appendChild(img);
               var figcaption = document.createElement("figcaption");
               figcaption.innerHTML = "Wstaw opis tutaj!";
-              blockElement.appendChild(img);
+              blockElement.appendChild(figcaption);
             }
           });
           return;
