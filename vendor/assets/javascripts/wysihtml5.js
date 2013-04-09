@@ -7261,8 +7261,8 @@ wysihtml5.Commands = Base.extend(
 
               var fig = document.createElement("figure");
               var img2 = document.createElement("img");
-              img.src = "http://placehold.it/312x146";
-              img.alt = "";
+              img2.src = "http://placehold.it/312x146";
+              img2.alt = "";
 
               fig.appendChild(img2);
               blockElement.parentNode.insertBefore(fig, blockElement.nextSibling);
