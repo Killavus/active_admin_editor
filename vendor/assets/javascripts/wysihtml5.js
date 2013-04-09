@@ -7257,6 +7257,7 @@ wysihtml5.Commands = Base.extend(
               img.src = "http://placehold.it/312x146";
               img.alt = "";
 
+              blockElement.innerHTML = "";
               blockElement.appendChild(img);
               _addClass(blockElement, "inline", "");
 
