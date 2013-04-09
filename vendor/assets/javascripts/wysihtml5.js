@@ -9269,6 +9269,7 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
         return;
       }
 
+      console.log(commandObj);
       var commandObj = this.commandMapping[command + ":" + commandValue];
 
       // Show dialog when available
