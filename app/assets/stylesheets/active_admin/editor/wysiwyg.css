@@ -6,6 +6,16 @@
   line-height: 1.7;
 }
 
+.wysihtml5-editor p a {
+  color: #4b3c37;
+  
+  text-decoration: none;
+}
+
+.wysihtml5-editor p a:hover {
+  text-decoration: underline;
+}
+
 .wysihtml5-editor .important-link {
   font-size: 1.0909em;
 
