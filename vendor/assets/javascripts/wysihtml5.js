@@ -6787,6 +6787,10 @@ wysihtml5.Commands = Base.extend(
     
     this.editor.fire("beforecommand:composer");
     
+    console.log('i\'m here');
+    console.log(command);
+    console.log(value);
+
     if (method) {
       args.unshift(this.composer);
       result = method.apply(obj, args);
@@ -9269,7 +9273,6 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
         return;
       }
 
-      console.log(commandObj);
       var commandObj = this.commandMapping[command + ":" + commandValue];
 
       // Show dialog when available
