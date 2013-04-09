@@ -7266,7 +7266,7 @@ wysihtml5.Commands = Base.extend(
               img2.alt = "";
 
               fig.appendChild(img2);
-              _addClass(figure, "inline", "");
+              _addClass(fig, "inline", "");
               blockElement.parentNode.insertBefore(fig, blockElement.nextSibling);
             }
           });
